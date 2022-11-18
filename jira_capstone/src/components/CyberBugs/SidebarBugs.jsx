@@ -1,32 +1,77 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { Layout, Menu } from "antd";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  BarsOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+const { Header, Sider, Content } = Layout;
 const SidebarBugs = () => {
+  const [state, setState] = useState({
+    collapsed: false,
+  });
+  const toggle = () => {
+    setState({
+      collapsed: !state.collapsed,
+    });
+  };
   return (
-    <div className="sideBar">
-      <div className="sideBar-top">
-        <div className="sideBar-icon">
-          <i className="fab fa-jira" />
-        </div>
+    <div>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={state.collapsed}
+        style={{ height: "100%" }}
+      >
         <div
-          className="sideBar-icon"
-          data-toggle="modal"
-          data-target="#searchModal"
-          style={{ cursor: "pointer" }}
+          className="text-right text-light pr-2 "
+          style={{ fontSize: "20px" }}
+          onClick={toggle}
         >
-          <i className="fa fa-search" />
-          <span className="title">SEARCH ISSUES</span>
+          <BarsOutlined />
         </div>
-        <div className="sideBar-icon">
-          <i className="fa fa-plus" />
-          <span className="title">CREATE ISSUES</span>
-        </div>
-      </div>
-      <div className="sideBar-bottom">
-        <div className="sideBar-icon">
-          <i className="fa fa-question-circle" />
-          <span className="title">ABOUT</span>
-        </div>
-      </div>
+        <div className="logo" />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          items={[
+            {
+              key: "1",
+              icon: (
+                <PlusOutlined style={{ fontSize: "25px", color: "white" }} />
+              ),
+              label: "Create issue",
+            },
+            {
+              key: "2",
+              icon: (
+                <SearchOutlined style={{ fontSize: "25px", color: "white" }} />
+              ),
+              label: "Search",
+            },
+          ]}
+        />
+      </Sider>
+      {/* <Header
+        className="site-layout-background"
+        style={{
+          padding: 0,
+        }}
+      >
+        {React.createElement(
+          state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+          {
+            className: "trigger",
+            onClick: () => setState.collapsed(!state.collapsed),
+          }
+        )}
+      </Header> */}
     </div>
   );
 };

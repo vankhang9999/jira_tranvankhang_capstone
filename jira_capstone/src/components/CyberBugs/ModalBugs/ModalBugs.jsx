@@ -90,7 +90,10 @@ const ModalBugs = () => {
                     <h6>Comment</h6>
                     <div className="block-comment" style={{ display: "flex" }}>
                       <div className="avatar">
-                        <img src="./assets/img/download (1).jfif" alt />
+                        <img
+                          src={require("../../../assets/img/download (1).jpg")}
+                          alt="cyber1"
+                        />
                       </div>
                       <div className="input-comment">
                         <input type="text" placeholder="Add a comment ..." />
@@ -121,7 +124,10 @@ const ModalBugs = () => {
                           style={{ display: "flex" }}
                         >
                           <div className="avatar">
-                            <img src="./assets/img/download (1).jfif" alt />
+                            <img
+                              src={require("../../../assets/img/download (1).jpg")}
+                              alt="cyber1"
+                            />
                           </div>
                           <div>
                             <p style={{ marginBottom: 5 }}>
@@ -158,7 +164,10 @@ const ModalBugs = () => {
                     <div style={{ display: "flex" }}>
                       <div style={{ display: "flex" }} className="item">
                         <div className="avatar">
-                          <img src="./assets/img/download (1).jfif" alt />
+                          <img
+                            src={require("../../../assets/img/download (1).jpg")}
+                            alt="cyber1"
+                          />
                         </div>
                         <p className="name">
                           Pickle Rick
@@ -178,7 +187,10 @@ const ModalBugs = () => {
                     <h6>REPORTER</h6>
                     <div style={{ display: "flex" }} className="item">
                       <div className="avatar">
-                        <img src="./assets/img/download (1).jfif" alt />
+                        <img
+                          src={require("../../../assets/img/download (1).jpg")}
+                          alt="cyber1"
+                        />
                       </div>
                       <p className="name">
                         Pickle Rick

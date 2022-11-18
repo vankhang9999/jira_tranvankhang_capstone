@@ -24,6 +24,15 @@ const MenuBugs = () => {
           </NavLink>
         </div>
         <div>
+          <i className="fa fa-credit-card" />
+          <NavLink
+            to="/projectmanagement"
+            activeClassName="avtive text-success font-weight-bold"
+          >
+            Project management
+          </NavLink>
+        </div>
+        <div>
           <i className="fa fa-cog" />
           <NavLink
             to="/createproject"

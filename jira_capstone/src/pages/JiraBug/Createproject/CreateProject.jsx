@@ -1,27 +1,66 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-const CreateProject = () => {
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { ProjectCategoryAction } from "../../../store/actions/projectCategoryActions";
+import { useForm } from "react-hook-form";
+const CreateProject = (props) => {
+  const { arrProjectCategory } = useSelector(
+    (state) => state.ProjectCategoryReducer
+  );
+  // console.log("arr", arrProjectCategory);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(ProjectCategoryAction.getProjectCategoryAction());
+    log();
+  }, []);
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      projectName: "",
+      description: "",
+      categoryId: "1",
+      alias: "",
+    },
+  });
   const editorRef = useRef(null);
   const log = () => {
+    //lấy giá trị từ editor
     if (editorRef.current) {
-      console.log(editorRef.current.getContent());
+      setValue("description", editorRef.current.getContent());
     }
   };
+  const onSubmit = (data) => {
+    dispatch(ProjectCategoryAction.createProjectJiraAction(data));
+  };
+
   return (
     <div className="container">
       <h3>CreateProJect</h3>
-      <div className="container">
+      <form className="container" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <p>Name</p>
-          <input type="text" className="form-control" name="projectName" />
+          <input
+            type="text"
+            className="form-control"
+            name="projectName"
+            {...register("projectName")}
+          />
         </div>
         <div className="form-group">
           <p>Description</p>
-          <input type="text" className="form-control" name="projectName" />
           <>
             <Editor
+              name="description"
+              {...register("description")}
               onInit={(evt, editor) => (editorRef.current = editor)}
-              initialValue="<p>This is the initial content of the editor.</p>"
+              initialValue=""
               init={{
                 height: 500,
                 menubar: false,
@@ -39,17 +78,27 @@ const CreateProject = () => {
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               }}
             />
-            <button onClick={log}>Log editor content</button>
           </>
         </div>
         <div className="form-group">
-          <select name="categoryId" className="form-control">
-            <option>Software</option>
-            <option>Web</option>
-            <option>App</option>
+          <select
+            name="categoryId"
+            {...register("categoryId")}
+            className="form-control"
+          >
+            {arrProjectCategory.map((item, index) => {
+              return (
+                <option value={item.id} key={item.id}>
+                  {item.projectCategoryName}
+                </option>
+              );
+            })}
           </select>
         </div>
-      </div>
+        <button className="btn btn-outline-success" onClick={log} type="submit">
+          Create project
+        </button>
+      </form>
     </div>
   );
 };

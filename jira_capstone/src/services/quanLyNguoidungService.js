@@ -6,5 +6,5 @@ export const quanLyNguoiDungService={
   },
   dangKy:(thongTinNguoiDung)=>{
     return api.post(`Users/signup`,thongTinNguoiDung)
-  }
+  },
 }

@@ -8,6 +8,7 @@ import UserTemplate from "./templates/UserTemplate/UserTemplate";
 import JiraTemplate from "./templates/JiraTemplate/JiraTemplate";
 import JiraBug from "./templates/JiraTemplate/JiraBug";
 import CreateProject from "./pages/JiraBug/Createproject/CreateProject";
+import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
 
 
 
@@ -23,6 +24,7 @@ function App() {
         <UserTemplate exact path='/register' Component={Register}/>
         <JiraTemplate excat path='/jirabugs' Component={JiraBug}/>
         <JiraTemplate excat path='/createproject' Component={CreateProject}/>
+        <JiraTemplate excat path='/projectmanagement' Component={ProjectManagement}/>
       </Switch>
     </Router>
   );
