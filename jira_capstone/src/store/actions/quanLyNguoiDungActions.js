@@ -1,6 +1,6 @@
 import { history } from "../../App"
 import { quanLyNguoiDungService } from "../../services/quanLyNguoidungService"
-import { DANG_NHAP_ACTION } from "../types"
+import { DANG_NHAP_ACTION, GET_USER_SEARCH } from "../types"
 
 export const quanLyNguoiDungAction={
     dangNhapAction:(thongTinDangNhap)=>{
@@ -32,6 +32,22 @@ export const quanLyNguoiDungAction={
         }catch(error){
           console.log('error:',error.response?.data)
         alert('Đăng ký thất bại rồi :(')
+        }
+      }
+    },
+    getUserAction:(userID)=>{
+      return async(dispatch)=>{
+        try{
+          const result=await quanLyNguoiDungService.getUser(userID)
+          if(result.data.statusCode===200){
+            console.log('result',result.data.content)
+            dispatch({
+              type:GET_USER_SEARCH,
+              user:result.data.content
+            })
+          }
+        }catch(error){
+          console.log('error',error.response.data)
         }
       }
     }

@@ -13,7 +13,6 @@ const CreateProject = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(ProjectCategoryAction.getProjectCategoryAction());
-    log();
   }, []);
 
   const {
@@ -25,7 +24,7 @@ const CreateProject = (props) => {
     defaultValues: {
       projectName: "",
       description: "",
-      categoryId: "1",
+      categoryId: arrProjectCategory[0]?.id,
       alias: "",
     },
   });

@@ -1,16 +1,38 @@
 import React, { useState } from "react";
-import { Button, Space, Table, Tag } from "antd";
+import { AutoComplete, Avatar, Button, Popover, Space, Table, Tag } from "antd";
 import ReactHtmlParser from "html-react-parser";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { message, Popconfirm } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProjectCategoryAction } from "../../store/actions/projectCategoryActions";
+import {
+  DELETE_PROJECT,
+  EIDT_PROJECT,
+  OPEN_DRAWER,
+  OPEN_FORM,
+} from "../../store/types";
+import FormEditProject from "../../components/Forms/FormEditProject/FormEditProject";
+import { ProjectAPIAction } from "../../store/actions/projectAPIActions";
+import { quanLyNguoiDungAction } from "../../store/actions/quanLyNguoiDungActions";
 
+const confirm = (e) => {
+  console.log(e);
+  message.success("Click on Yes");
+};
+
+const cancel = (e) => {
+  console.log(e);
+  message.error("Click on No");
+};
 const ProjectManagement = (props) => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const dispatch = useDispatch();
   const { projectAll } = useSelector((state) => state.ProjectCategoryReducer);
+  const { userSearch } = useSelector((state) => state.userReducer);
+
+  const [value, setValue] = useState("");
   const data = projectAll;
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -98,16 +120,88 @@ const ProjectManagement = (props) => {
       sortDirections: ["descend"],
     },
     {
+      title: "members",
+      key: "members",
+      render: (text, record, index) => {
+        return (
+          <div>
+            {record.members?.map((member, index) => {
+              return <Avatar key={index} src={member.avatar} />;
+            })}
+            {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
+            <Popover
+              placement="topLeft"
+              title="Title"
+              content={
+                <AutoComplete
+                  options={userSearch?.map((user, index) => {
+                    return { label: user.name, value: user.userId.toString() };
+                  })}
+                  value={value}
+                  onChange={(text) => {
+                    setValue(text);
+                  }}
+                  onSelect={(value, option) => {
+                    //set giatri cua hopthoai
+                    setValue(option.label);
+                    const user = {
+                      projectId: record.id,
+                      userId: option.value,
+                    };
+                    dispatch(ProjectAPIAction.AssignUserProjectAction(user));
+                  }}
+                  style={{ width: "100%" }}
+                  onSearch={(value) => {
+                    dispatch(quanLyNguoiDungAction.getUserAction(value));
+                  }}
+                />
+              }
+              trigger="click"
+            >
+              <Button>+</Button>
+            </Popover>
+          </div>
+        );
+      },
+    },
+    {
       title: "Action",
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">
-          <a className="bg-primary p-2 rounded">
+          <a
+            className="bg-primary p-2 rounded"
+            onClick={() => {
+              const action = {
+                type: OPEN_FORM,
+                Component: <FormEditProject />,
+              };
+              //dispatch lên reducer nội dung drawer
+              dispatch(action);
+              //dispatch data current on reducer
+              const actionEditProjet = {
+                type: EIDT_PROJECT,
+                projectEditModel: record,
+              };
+              dispatch(actionEditProjet);
+            }}
+          >
             <EditOutlined className="text-white" />
           </a>
-          <a className="bg-danger  p-2 rounded">
-            <DeleteOutlined className="text-white" />
-          </a>
+
+          <Popconfirm
+            title="Are you sure to delete this task?"
+            onConfirm={() => {
+              dispatch(ProjectAPIAction.DeleteProjectAction(record.id));
+            }}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a className="bg-danger  p-2 rounded">
+              <DeleteOutlined className="text-white" />
+            </a>
+          </Popconfirm>
         </Space>
       ),
     },

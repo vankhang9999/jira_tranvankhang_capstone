@@ -9,6 +9,7 @@ import JiraTemplate from "./templates/JiraTemplate/JiraTemplate";
 import JiraBug from "./templates/JiraTemplate/JiraBug";
 import CreateProject from "./pages/JiraBug/Createproject/CreateProject";
 import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
+import ModalCyberBug from "./components/CyberBugsHOC/ModalCyberBug";
 
 
 
@@ -16,6 +17,7 @@ export const history = createBrowserHistory()
 function App() {
   return (
     <Router  history={history}>
+      <ModalCyberBug/> 
       <Switch>
         <HomeTemplate exact path='/' Component={Home}/>
         <HomeTemplate exact path='/home' Component={Home}/>

@@ -9,5 +9,14 @@ export const quanLyProjectService={
   },
   getAllProject:()=>{
     return api.get(`Project/getAllProject`)
+  },
+  updateProject:(dataUpdate,dataUpdateId)=>{
+    return api.put(`Project/updateProject?projectId=${dataUpdateId}`,dataUpdate)
+  },
+  deleteProject:(DeleteID)=>{
+    return api.delete(`Project/deleteProject?projectId=${DeleteID}`)
+  },
+  getUser:(userID)=>{
+    return api.get(`Users/getUser?keyword=${userID}`)
   }
 }
