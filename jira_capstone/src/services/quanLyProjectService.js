@@ -16,7 +16,7 @@ export const quanLyProjectService={
   deleteProject:(DeleteID)=>{
     return api.delete(`Project/deleteProject?projectId=${DeleteID}`)
   },
-  getUser:(userID)=>{
-    return api.get(`Users/getUser?keyword=${userID}`)
+  getProjectDetail:(ID)=>{
+    return api.get(`Project/getProjectDetail?id=${ID}`)
   }
 }

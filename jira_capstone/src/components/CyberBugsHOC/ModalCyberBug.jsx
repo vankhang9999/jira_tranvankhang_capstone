@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_DRAWER, OPEN_DRAWER } from "../../store/types";
 const { Option } = Select;
 const ModalCyberBug = (props) => {
-  const { open, ComponentContentDrawer, callBackSubmit } = useSelector(
+  const { open, ComponentContentDrawer, callBackSubmit, title } = useSelector(
     (state) => state.DrawerReducer
   );
   const dispatch = useDispatch();
@@ -28,9 +28,9 @@ const ModalCyberBug = (props) => {
   };
   return (
     <>
-      <button onClick={showDrawer}>ShowDrawe</button>
+      {/* <button onClick={showDrawer}>ShowDrawe</button> */}
       <Drawer
-        title="Create a new account"
+        title={title}
         width={720}
         onClose={onClose}
         open={open}

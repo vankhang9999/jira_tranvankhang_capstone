@@ -51,5 +51,20 @@ export const ProjectAPIAction={
         console.log(err.response.data)
       }
     }
+  },
+  RemoveUserFromProject:(user)=>{
+    return async(dispatch)=>{
+      try{
+        const result=await quanLyNguoiDungService.removeUserFromProject(user)
+        if(result.data.statusCode===200){
+          console.log('result',result.data.content)
+          notifiFunction('success','RemoveUserFromProject is success!','')
+          await dispatch(ProjectCategoryAction.GetProjectAllAction())
+          // history.push('/projectmanagement')
+        }
+      }catch(err){
+        console.log(err.response.data)
+      }
+    }
   }
 }

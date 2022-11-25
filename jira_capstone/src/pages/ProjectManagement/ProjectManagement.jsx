@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { AutoComplete, Avatar, Button, Popover, Space, Table, Tag } from "antd";
 import ReactHtmlParser from "html-react-parser";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
 import { message, Popconfirm } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import {
 import FormEditProject from "../../components/Forms/FormEditProject/FormEditProject";
 import { ProjectAPIAction } from "../../store/actions/projectAPIActions";
 import { quanLyNguoiDungAction } from "../../store/actions/quanLyNguoiDungActions";
+import { NavLink } from "react-router-dom";
 
 const confirm = (e) => {
   console.log(e);
@@ -33,6 +34,8 @@ const ProjectManagement = (props) => {
   const { userSearch } = useSelector((state) => state.userReducer);
 
   const [value, setValue] = useState("");
+  const searchRef = useRef(null);
+
   const data = projectAll;
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -69,6 +72,9 @@ const ProjectManagement = (props) => {
       title: "projectName",
       dataIndex: "projectName",
       key: "projectName",
+      render: (text, record, index) => {
+        return <NavLink to={`/projectdetail/${record.id}`}>{text}</NavLink>;
+      },
       sorter: (a, b) => {
         let projectName1 = a.projectName?.trim().toLowerCase();
         let projectName2 = a.projectName?.trim().toLowerCase();
@@ -126,7 +132,65 @@ const ProjectManagement = (props) => {
         return (
           <div>
             {record.members?.map((member, index) => {
-              return <Avatar key={index} src={member.avatar} />;
+              return (
+                <Popover
+                  key={index}
+                  placement="top"
+                  title="members"
+                  content={() => {
+                    return (
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>Avatar</th>
+                            <th>Name</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {record.members?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.userId}</td>
+                                <td>
+                                  <img
+                                    src={item.avatar}
+                                    width="30"
+                                    height="30"
+                                    style={{ borderRadius: "15px" }}
+                                  />
+                                </td>
+                                <td>{item.name}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-danger rounded-circle"
+                                    onClick={() => {
+                                      const user = {
+                                        projectId: record.id,
+                                        userId: item.userId,
+                                      };
+                                      dispatch(
+                                        ProjectAPIAction.RemoveUserFromProject(
+                                          user
+                                        )
+                                      );
+                                    }}
+                                  >
+                                    <CloseOutlined />
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    );
+                  }}
+                >
+                  <Avatar key={index} src={member.avatar} />;
+                </Popover>
+              );
             })}
             {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
             <Popover
@@ -152,13 +216,18 @@ const ProjectManagement = (props) => {
                   }}
                   style={{ width: "100%" }}
                   onSearch={(value) => {
-                    dispatch(quanLyNguoiDungAction.getUserAction(value));
+                    if (searchRef.current) {
+                      clearTimeout(searchRef.current);
+                    }
+                    searchRef.current = setTimeout(() => {
+                      dispatch(quanLyNguoiDungAction.getUserAction(value));
+                    }, 300);
                   }}
                 />
               }
               trigger="click"
             >
-              <Button>+</Button>
+              <Button className="rounded-circle">+</Button>
             </Popover>
           </div>
         );
@@ -174,6 +243,7 @@ const ProjectManagement = (props) => {
             onClick={() => {
               const action = {
                 type: OPEN_FORM,
+                title: "Edit project",
                 Component: <FormEditProject />,
               };
               //dispatch lên reducer nội dung drawer

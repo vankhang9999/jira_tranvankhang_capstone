@@ -1,6 +1,7 @@
 import { history } from "../../App"
 import { quanLyNguoiDungService } from "../../services/quanLyNguoidungService"
-import { DANG_NHAP_ACTION, GET_USER_SEARCH } from "../types"
+import { quanLyProjectService } from "../../services/quanLyProjectService"
+import { DANG_NHAP_ACTION, GET_USER_SEARCH, PUT_PROJECT_DETAIL } from "../types"
 
 export const quanLyNguoiDungAction={
     dangNhapAction:(thongTinDangNhap)=>{
@@ -48,6 +49,23 @@ export const quanLyNguoiDungAction={
           }
         }catch(error){
           console.log('error',error.response.data)
+        }
+      }
+    },
+    getProjectDetail:(ID)=>{
+      return async(dispatch)=>{
+        try{
+          const result=await quanLyProjectService.getProjectDetail(ID)
+          if(result.data.statusCode===200){
+            console.log('result',result.data.content)
+            dispatch({
+              type:PUT_PROJECT_DETAIL,
+              user:result.data.content
+            })
+          }
+        }catch(error){
+          console.log('404 not found')
+          history.push('/projectmanagement');
         }
       }
     }

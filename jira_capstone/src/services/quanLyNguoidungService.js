@@ -12,5 +12,8 @@ export const quanLyNguoiDungService={
   },
   assignUserProject:(user)=>{
     return api.post(`Project/assignUserProject`,user)
+  },
+  removeUserFromProject:(user)=>{
+    return api.post(`Project/removeUserFromProject`,user)
   }
 }

@@ -19,7 +19,7 @@ function App() {
     <Router  history={history}>
       <ModalCyberBug/> 
       <Switch>
-        <HomeTemplate exact path='/' Component={Home}/>
+        <JiraTemplate exact path='/' Component={ProjectManagement}/>
         <HomeTemplate exact path='/home' Component={Home}/>
         <HomeTemplate exact path='/profile' Component={Home}/>
         <UserTemplate exact path='/login' Component={Login}/>
@@ -27,6 +27,7 @@ function App() {
         <JiraTemplate excat path='/jirabugs' Component={JiraBug}/>
         <JiraTemplate excat path='/createproject' Component={CreateProject}/>
         <JiraTemplate excat path='/projectmanagement' Component={ProjectManagement}/>
+        <JiraTemplate excat path='/projectdetail/:projectId' Component={JiraBug}/>
       </Switch>
     </Router>
   );
