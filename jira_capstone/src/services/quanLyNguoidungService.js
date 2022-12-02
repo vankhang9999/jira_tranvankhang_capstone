@@ -15,5 +15,17 @@ export const quanLyNguoiDungService={
   },
   removeUserFromProject:(user)=>{
     return api.post(`Project/removeUserFromProject`,user)
-  }
+  },
+  getAllUser:()=>{
+    return api.get(`Users/getUser`)
+  },
+   getUserByProjectId: (projectId) => {
+    return api.get(`Users/getUserByProjectId?idProject=${projectId}`)
+},
+  editUser:(data)=>{
+    return api.put(`Users/editUser`,data)
+},
+  DeleteUser:(id)=>{
+    return api.delete(`Users/deleteUser?id=${id}`)
+}
 }

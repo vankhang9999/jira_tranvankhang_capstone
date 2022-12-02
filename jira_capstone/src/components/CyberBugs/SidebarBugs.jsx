@@ -10,8 +10,13 @@ import {
   SearchOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { OPEN_FORM_CREATE_TASK } from "../../store/types";
+import FormCreateTask from "../Forms/FormCreateTask/FormCreateTask";
+
 const { Header, Sider, Content } = Layout;
 const SidebarBugs = () => {
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     collapsed: false,
   });
@@ -44,9 +49,18 @@ const SidebarBugs = () => {
             {
               key: "1",
               icon: (
-                <PlusOutlined style={{ fontSize: "25px", color: "white" }} />
+                <PlusOutlined
+                  style={{ fontSize: "25px", color: "white" }}
+                  onClick={() => {
+                    dispatch({
+                      type: OPEN_FORM_CREATE_TASK,
+                      Component: <FormCreateTask />,
+                      title: "Create task",
+                    });
+                  }}
+                />
               ),
-              label: "Create issue",
+              label: "Create task",
             },
             {
               key: "2",

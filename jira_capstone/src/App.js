@@ -10,6 +10,10 @@ import JiraBug from "./templates/JiraTemplate/JiraBug";
 import CreateProject from "./pages/JiraBug/Createproject/CreateProject";
 import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
 import ModalCyberBug from "./components/CyberBugsHOC/ModalCyberBug";
+import ModalAdmin from "./components/Admin/ModalAdmin/ModalAdmin";
+import Dashboard from "./components/Admin/Task/Dashboard";
+import EditUser from "./components/Admin/User/EditUser";
+import AdminTemplate from "./templates/AdminTemplate/AdminTemplate";
 
 
 
@@ -18,6 +22,7 @@ function App() {
   return (
     <Router  history={history}>
       <ModalCyberBug/> 
+      <ModalAdmin/>
       <Switch>
         <JiraTemplate exact path='/' Component={ProjectManagement}/>
         <HomeTemplate exact path='/home' Component={Home}/>
@@ -28,6 +33,12 @@ function App() {
         <JiraTemplate excat path='/createproject' Component={CreateProject}/>
         <JiraTemplate excat path='/projectmanagement' Component={ProjectManagement}/>
         <JiraTemplate excat path='/projectdetail/:projectId' Component={JiraBug}/>
+
+
+
+        <AdminTemplate path='/admin' exact Component={Dashboard}/>
+        <AdminTemplate path='/admin/dashboard' exact Component={Dashboard}/>
+        <AdminTemplate path='/admin/edit' exact Component={EditUser}/>
       </Switch>
     </Router>
   );

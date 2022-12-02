@@ -84,6 +84,7 @@ const CreateProject = (props) => {
             name="categoryId"
             {...register("categoryId")}
             className="form-control"
+            onChange={(e) => {}}
           >
             {arrProjectCategory.map((item, index) => {
               return (

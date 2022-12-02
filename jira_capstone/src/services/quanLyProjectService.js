@@ -19,4 +19,5 @@ export const quanLyProjectService={
   getProjectDetail:(ID)=>{
     return api.get(`Project/getProjectDetail?id=${ID}`)
   }
+  
 }

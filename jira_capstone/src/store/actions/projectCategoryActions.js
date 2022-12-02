@@ -1,6 +1,7 @@
 import { history } from "../../App"
 import { quanLyProjectService } from "../../services/quanLyProjectService"
-import { CREATEPROJECTJIRA, GET_ALL_PROJECT, GET_PROJECTCATEGORY_ALL } from "../types"
+import { notifiFunction } from "../../util/settings/Notification/nontificationCyber"
+import { CREATEPROJECTJIRA, GET_ALL_PROJECT, GET_ALL_TASK, GET_PROJECTCATEGORY_ALL, GET_USER_BYID } from "../types"
 
 export const ProjectCategoryAction={
   getProjectCategoryAction:()=>{
@@ -8,7 +9,7 @@ export const ProjectCategoryAction={
     try{
       const result = await quanLyProjectService.getProjectAll()
       if(result.data.statusCode===200){
-        console.log('projectAll',result.data.content)
+        notifiFunction('success','Get ProjectAll success!','')
         dispatch({
           type:GET_PROJECTCATEGORY_ALL,
           payload:result.data.content
@@ -16,7 +17,7 @@ export const ProjectCategoryAction={
       }
 
     }catch(err){
-      console('err',err.response.data)
+      notifiFunction('error','Get ProjectAll Not success!','')
     }
     }
   },
@@ -25,8 +26,7 @@ export const ProjectCategoryAction={
       try{
         const result= await quanLyProjectService.CreateProjectJira(createProjectData)
         if(result.data.statusCode===200){
-          console.log('create',result.data.content)
-          alert('Tạo mới thành công :)')
+          notifiFunction('success','Create Project success!','')
           dispatch({
             type:CREATEPROJECTJIRA,
             payload:result.data.content
@@ -34,8 +34,7 @@ export const ProjectCategoryAction={
           history.push('/projectmanagement')
         }
       }catch(error){
-        console.log('error',error.response.data)
-        alert('Tạo mới thất bại :(')
+        notifiFunction('error','Create Project Not success!','')
       }
     }
   },
@@ -44,15 +43,14 @@ export const ProjectCategoryAction={
       try{
         const result=await quanLyProjectService.getAllProject()
         if(result.data.statusCode===200){
-          console.log('create',result.data.content)
+          notifiFunction('success','Get AllProject success!','')
           dispatch({
             type:GET_ALL_PROJECT,
             payload:result.data.content
-          })
+          });
         }
       }catch(error){
-        console.log('error',error.response.data)
-        alert('Get all fail :(')
+        notifiFunction('error','Get AllProject Not success!','')
       }
     }
   }
